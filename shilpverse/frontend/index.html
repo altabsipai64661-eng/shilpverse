@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShilpVerse — Discover something made differently</title>
+    <meta name="description" content="ShilpVerse is a creative marketplace where you can discover, buy, and sell unique handmade and artistic creations.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#127912;</text></svg>">
+</head>
+<body>
+    <!-- ============ NAVIGATION ============ -->
+    <nav class="navbar" id="navbar" role="navigation" aria-label="Main navigation">
+        <div class="nav-container">
+            <a href="#" class="nav-logo" onclick="navigate('home'); return false;" aria-label="ShilpVerse home">
+                <span class="logo-icon" aria-hidden="true">&#127912;</span>
+                <span class="logo-text">ShilpVerse</span>
+            </a>
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">
+                <span></span><span></span><span></span>
+            </button>
+            <div class="nav-menu" id="navMenu">
+                <div class="nav-center">
+                    <a href="#" onclick="navigate('home'); return false;" class="nav-link" data-page="home">Home</a>
+                    <a href="#" onclick="navigate('explore'); return false;" class="nav-link" data-page="explore">Explore</a>
+                    <a href="#" onclick="navigate('categories'); return false;" class="nav-link" data-page="categories">Categories</a>
+                    <a href="#" onclick="navigate('sellers'); return false;" class="nav-link" data-page="sellers">Sellers</a>
+                </div>
+                <div class="nav-right" id="navRight">
+                    <!-- Filled by JS based on auth state -->
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ============ MOBILE BOTTOM NAV ============ -->
+    <nav class="mobile-bottom-nav" id="mobileBottomNav" aria-label="Mobile navigation">
+        <a href="#" onclick="navigate('home'); return false;" class="mbn-item" data-page="home"><span class="mbn-icon">&#127968;</span><span>Home</span></a>
+        <a href="#" onclick="navigate('explore'); return false;" class="mbn-item" data-page="explore"><span class="mbn-icon">&#128269;</span><span>Explore</span></a>
+        <a href="#" onclick="navigate('cart'); return false;" class="mbn-item" data-page="cart"><span class="mbn-icon">&#128722;</span><span>Cart</span><span class="mbn-badge" id="mbnCartBadge" style="display:none">0</span></a>
+        <a href="#" onclick="navigate('favorites'); return false;" class="mbn-item" data-page="favorites"><span class="mbn-icon">&#10084;</span><span>Saved</span></a>
+        <a href="#" onclick="navigate('dashboard'); return false;" class="mbn-item" data-page="dashboard"><span class="mbn-icon">&#128100;</span><span>Account</span></a>
+    </nav>
+
+    <!-- ============ MAIN CONTENT ============ -->
+    <main id="app" class="app-main" role="main">
+        <!-- All page content is rendered here by JavaScript -->
+        <div class="page-loader">
+            <div class="loader-spinner"></div>
+            <p>Loading ShilpVerse...</p>
+        </div>
+    </main>
+
+    <!-- ============ FOOTER ============ -->
+    <footer class="footer" id="footer">
+        <div class="footer-container">
+            <div class="footer-col footer-brand">
+                <div class="footer-logo">
+                    <span class="logo-icon">&#127912;</span>
+                    <span class="logo-text">ShilpVerse</span>
+                </div>
+                <p>A creative marketplace connecting people with unique handmade and artistic creations from independent makers.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Explore</h4>
+                <a href="#" onclick="navigate('explore'); return false;">Products</a>
+                <a href="#" onclick="navigate('categories'); return false;">Categories</a>
+                <a href="#" onclick="navigate('sellers'); return false;">Sellers</a>
+            </div>
+            <div class="footer-col">
+                <h4>Sell</h4>
+                <a href="#" onclick="startSelling(); return false;">Start Selling</a>
+                <a href="#" onclick="navigate('dashboard'); return false;">Seller Dashboard</a>
+            </div>
+            <div class="footer-col">
+                <h4>Help</h4>
+                <a href="#" onclick="showFAQ(); return false;">FAQ</a>
+                <a href="#" onclick="showPaymentInfo(); return false;">Payments</a>
+                <a href="#" onclick="showShippingInfo(); return false;">Shipping</a>
+                <a href="#" onclick="showContactInfo(); return false;">Contact</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 ShilpVerse. Made with care for creators.</p>
+        </div>
+    </footer>
+
+    <!-- ============ MODAL CONTAINER ============ -->
+    <div class="modal-overlay" id="modalOverlay" aria-hidden="true">
+        <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+            <button class="modal-close" onclick="closeModal()" aria-label="Close">&times;</button>
+            <div class="modal-body" id="modalBody"></div>
+        </div>
+    </div>
+
+    <!-- ============ TOAST CONTAINER ============ -->
+    <div class="toast-container" id="toastContainer" aria-live="polite" aria-atomic="true"></div>
+
+    <!-- ============ CART DRAWER ============ -->
+    <div class="drawer-overlay" id="cartOverlay" onclick="closeCart()" aria-hidden="true"></div>
+    <aside class="cart-drawer" id="cartDrawer" aria-hidden="true" aria-label="Shopping cart">
+        <div class="drawer-header">
+            <h3>Your Cart</h3>
+            <button class="drawer-close" onclick="closeCart()" aria-label="Close cart">&times;</button>
+        </div>
+        <div class="drawer-body" id="cartBody">
+            <p class="drawer-empty">Your cart is empty.</p>
+        </div>
+        <div class="drawer-footer" id="cartFooter" style="display:none">
+            <div class="cart-summary">
+                <div class="cart-row"><span>Subtotal</span><span id="cartSubtotal">&#8377;0</span></div>
+                <div class="cart-row"><span>Shipping</span><span id="cartShipping">Calculated at checkout</span></div>
+                <div class="cart-row cart-total"><span>Total</span><span id="cartTotal">&#8377;0</span></div>
+            </div>
+            <button class="btn btn-primary btn-full" onclick="proceedToCheckout()">Proceed to Checkout</button>
+        </div>
+    </aside>
+
+    <script src="script.js"></script>
+</body>
+</html>
