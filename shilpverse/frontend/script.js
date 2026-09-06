@@ -10,14 +10,7 @@
 // - VS Code Live Server / any static server (for example port 5500):
 //   send API requests to the Flask backend on port 5000.
 // - file:// pages also use the local Flask backend.
-const API = (() => {
-    const host = window.location.hostname || '127.0.0.1';
-    const protocol = window.location.protocol;
-    const port = window.location.port;
-    if (protocol === 'file:') return 'http://127.0.0.1:5000';
-    if (port === '5000') return '';
-    return `http://${host}:5000`;
-})();
+const API = 'https://shilpverse.onrender.com';
 function applyTheme() {
     const dark = localStorage.getItem('shilp_theme') === 'dark';
     document.body.classList.toggle('dark-theme', dark);
